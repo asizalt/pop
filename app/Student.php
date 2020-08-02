@@ -31,6 +31,6 @@ class Student extends Authenticatable
 
     public function periods()
     {
-        return $this->hasMany('App\Period');
+        return $this->belongsToMany('App\Period','student_period');
     }
 }

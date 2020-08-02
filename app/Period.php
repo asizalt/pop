@@ -18,6 +18,6 @@ class Period extends Model
 
     public function students()
     {
-        return $this->hasMany('App\Student');
+        return $this->belongsToMany('App\Student','student_period');
     }
 }

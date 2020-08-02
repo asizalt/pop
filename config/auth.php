@@ -41,18 +41,18 @@ return [
             'provider' => 'users',
         ],
 
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-        'teachers' => [
+//        'api' => [
+//            'driver' => 'token',
+//            'provider' => 'users',
+//            'hash' => false,
+//        ],
+        'teacher' => [
             'driver' => 'passport',
             'provider' => 'teachers',
         ],
-        'admin' => [
+        'student' => [
             'driver' => 'passport',
-            'provider' => 'teachers',
+            'provider' => 'students',
         ],
     ],
 

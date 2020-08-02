@@ -14,13 +14,33 @@ use Illuminate\Http\Request;
 */
 
 //User Auth
-Route::post('student-login', 'Api\Student\Auth\LoginController@login');
-Route::post('student-register', 'Api\Student\Auth\RegisterController@register');
 
+Route::post('student-register', 'Api\Student\RegisterController@registerStudent');
+Route::post('teacher-register', 'Api\Teacher\RegisterController@registerTeacher');
 //Admin Auth
-Route::post('teacher-login', 'Api\Teacher\Auth\LoginController@login');
-Route::post('teacher-register', 'Api\Teacher\Auth\RegisterController@register');
+Route::post('student-login', 'Api\Student\LoginController@loginStudent');
+Route::post('teacher-login', 'Api\Teacher\LoginController@loginTeacher');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+//Route::post('students-login', 'Api\Student\LoginController@loginStudent');
+
+Route::group(['middleware' => ['multiauth:api,teacher'],'prefix' => 'teacher'], function () {
+
+    Route::get('student/{period}', 'Api\Teacher\TeacherController@fetchStudentsByPeriod');
+    Route::get('period', 'Api\Teacher\TeacherController@fetchTeacherPeriod');
+    Route::get('period/students', 'Api\Teacher\TeacherController@studentsLinkTeachers');
+
+});
+
+Route::group(['middleware' => ['api', 'multiauth:student'],'prefix' => 'student'], function () {
+
+    Route::get('/period/list-all', 'Api\Student\StudentController@listPeriods');
+    Route::get('/period/list-registered', 'Api\Student\StudentController@listRegisteredPeriods');
+    Route::post('/period/register', 'Api\Student\StudentController@RegisterToPeriod');
+    Route::post('/period/unregister', 'Api\Student\StudentController@UnregisterFromPeriod');
+
+
+
 });
